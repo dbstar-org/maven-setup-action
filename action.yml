@@ -31,7 +31,12 @@ runs:
             {
               "id": "github",
               "username": "${{ github.actor }}",
-              "password": "${{ github.token }}"
+              "password": "${{ secrets.GITHUB_TOKEN }}"
+            },
+            {
+              "id": "github-owner",
+              "username": "${{ github.actor }}",
+              "password": "${{ secrets.GITHUB_TOKEN }}"
             }
           ]
         repositories: >
@@ -41,7 +46,7 @@ runs:
               "url": "https://maven.pkg.github.com/${{ github.actor }}/*"
             },
             {
-              "id": "github",
+              "id": "github-owner",
               "url": "https://maven.pkg.github.com/${{ github.repository_owner }}/*"
             }
           ]
