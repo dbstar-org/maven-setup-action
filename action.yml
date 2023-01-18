@@ -1,0 +1,25 @@
+name: 'Maven Setup'
+description: 'Setup for Java Maven Project'
+inputs:
+  java-version:
+    description: 'The Java version to set up. Takes a whole or semver Java version.'
+    default: '8'
+  distribution:
+    description: 'Java distribution.'
+    default: 'adopt'
+outputs:
+  java-version:
+    description: 'Actual version of the java environment that has been installed'
+    value: ${{ steps.setup-java.outputs.version }}
+  distribution:
+    description: "Distribution of Java that has been installed"
+    value: ${{ steps.setup-java.outputs.distribution }}
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/checkout@v3
+    - id: setup-java
+      uses: actions/setup-java@v3
+      with:
+        java-version: '${{ inputs.java-version }}'
+        distribution: '${{ inputs.distribution }}'
