@@ -23,3 +23,25 @@ runs:
       with:
         java-version: '${{ inputs.java-version }}'
         distribution: '${{ inputs.distribution }}'
+    - name: Generate settings.xml for Maven Builds
+      uses: whelk-io/maven-settings-xml-action@v21
+      with:
+        servers: >
+          [
+            {
+              "id": "github",
+              "username": "${{ github.actor }}",
+              "password": "${{ github.token }}"
+            }
+          ]
+        repositories: >
+          [
+            {
+              "id": "github",
+              "url": "https://maven.pkg.github.com/${{ github.actor }}/*"
+            },
+            {
+              "id": "github",
+              "url": "https://maven.pkg.github.com/${{ github.repository_owner }}/*"
+            }
+          ]
