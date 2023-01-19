@@ -1,4 +1,4 @@
-name: 'Maven Setup'
+name: 'Setup Maven Action'
 description: 'Setup for Java Maven Project'
 inputs:
   java-version:
