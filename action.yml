@@ -7,6 +7,9 @@ inputs:
   distribution:
     description: 'Java distribution.'
     default: 'adopt'
+  repository:
+    description: 'Java distribution.'
+    default: 'adopt'
 outputs:
   java-version:
     description: 'Actual version of the java environment that has been installed'
@@ -29,24 +32,25 @@ runs:
         servers: >
           [
             {
-              "id": "github",
+              "id": "github-repository-owner",
               "username": "${env.GITHUB_ACTOR}",
               "password": "${env.GITHUB_TOKEN}"
             },
             {
-              "id": "github-owner",
+              "id": "github-actor",
               "username": "${env.GITHUB_ACTOR}",
-              "password": "${env.GITHUB_TOKEN}"
+              "password": "${env.ACTOR_TOKEN}"
             }
           ]
         repositories: >
           [
             {
-              "id": "github",
-              "url": "https://maven.pkg.github.com/${env.GITHUB_ACTOR}/*"
+              "id": "github-repository-owner",
+              "url": "https://maven.pkg.github.com/${env.GITHUB_REPOSITORY_OWNER}/*"
             },
             {
-              "id": "github-owner",
-              "url": "https://maven.pkg.github.com/${{ github.repository_owner }}/*"
+              "id": "github-actor",
+              "url": "https://maven.pkg.github.com/${env.GITHUB_ACTOR}/*"
             }
           ]
+    - run: cat ~/.m2/settings.xml
