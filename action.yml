@@ -39,7 +39,7 @@ runs:
             {
               "id": "github-actor",
               "username": "${env.GITHUB_ACTOR}",
-              "password": "${env.ACTOR_TOKEN}"
+              "password": "${{ secrets.ACTOR_TOKEN }}"
             }
           ]
         repositories: >
