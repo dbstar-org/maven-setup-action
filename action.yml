@@ -34,7 +34,7 @@ runs:
             {
               "id": "github-repository-owner",
               "username": "${env.GITHUB_ACTOR}",
-              "password": "${env.GITHUB_TOKEN}"
+              "password": "${env.ACTOR_TOKEN}"
             },
             {
               "id": "github-actor",
