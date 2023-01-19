@@ -34,12 +34,12 @@ runs:
             {
               "id": "github-repository-owner",
               "username": "${env.GITHUB_ACTOR}",
-              "password": "${env.ACTOR_TOKEN}"
+              "password": "${{ github.token }}"
             },
             {
               "id": "github-actor",
               "username": "${env.GITHUB_ACTOR}",
-              "password": "${env.ACTOR_TOKEN}"
+              "password": "${{ github.token }}"
             }
           ]
         repositories: >
