@@ -54,3 +54,4 @@ runs:
             }
           ]
     - run: cat ~/.m2/settings.xml
+      shell: bash
