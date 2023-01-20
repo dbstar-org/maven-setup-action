@@ -15,10 +15,9 @@ inputs:
     default: ${{ github.token }}
   gpg-private-key:
     description: 'GPG private key to import. Default is empty string.'
-    default: ''
   gpg-passphrase:
-    description: 'GPG private key passphrase. Default is empty string.'
-    default: ''
+    description: 'Environment variable name for the GPG private key passphrase. Default is $GPG_PASSPHRASE.'
+    default: 'GPG_PASSPHRASE'
 outputs:
   java-version:
     description: 'Actual version of the java environment that has been installed'
@@ -59,7 +58,7 @@ runs:
             },
             {
               "id": "gpg.passphrase",
-              "passphrase": "${{ inputs.gpg-passphrase }}"
+              "passphrase": "${env.${{ inputs.gpg-passphrase }}}"
             }
           ]
         repositories: >
