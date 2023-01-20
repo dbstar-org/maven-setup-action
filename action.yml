@@ -41,7 +41,6 @@ runs:
         java-version: '${{ inputs.java-version }}'
         distribution: '${{ inputs.distribution }}'
         gpg-private-key: '${{ inputs.gpg-private-key }}'
-        gpg-passphrase: '${{ inputs.gpg-passphrase }}'
         cache: 'maven'
     - run: cat ~/.m2/settings.xml
       shell: bash
@@ -63,7 +62,7 @@ runs:
             },
             {
               "id": "gpg.passphrase",
-              "passphrase": "${{ '${env.' + inputs.gpg-passphrase + '}' }}"
+              "passphrase": "${{ format('${env.{0}}', inputs.gpg-passphrase) }}"
             }
           ]
         repositories: >
