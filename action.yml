@@ -63,7 +63,7 @@ runs:
             },
             {
               "id": "gpg.passphrase",
-              "passphrase": "${env.${{ inputs.gpg-passphrase }}}"
+              "passphrase": "${{ '${env.' + inputs.gpg-passphrase + '}' }}"
             }
           ]
         repositories: >
