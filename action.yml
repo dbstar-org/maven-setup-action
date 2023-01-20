@@ -2,21 +2,23 @@ name: 'Setup Maven Action'
 description: 'Setup for Java Maven Project'
 inputs:
   fetch-depth:
-    description: 'Number of commits to fetch. 0 indicates all history for all branches and tags.'
+    description: 'Number of commits to fetch. 0 indicates all history for all branches and tags. Default is 1'
     default: 1
   java-version:
-    description: 'The Java version to set up. Takes a whole or semver Java version.'
+    description: 'The Java version to set up. Takes a whole or semver Java version. Default is 8'
     default: '8'
   distribution:
-    description: 'Java distribution.'
+    description: 'Java distribution. Default is adopt.'
     default: 'adopt'
   token:
-    description: 'Personal access token (PAT) used to fetch the repository.'
+    description: 'Personal access token (PAT) used to fetch the repository. Default is github.token'
     default: ${{ github.token }}
   gpg-private-key:
     description: 'GPG private key to import. Default is empty string.'
+    default: ''
   gpg-passphrase:
     description: 'GPG private key passphrase. Default is empty string.'
+    default: ''
 outputs:
   java-version:
     description: 'Actual version of the java environment that has been installed'
