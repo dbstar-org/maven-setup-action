@@ -13,6 +13,11 @@ inputs:
   token:
     description: 'Personal access token (PAT) used to fetch the repository.'
     default: ${{ github.token }}
+  gpg-private-key:
+    description: 'GPG private key to import. Default is empty string.'
+  gpg-passphrase:
+    description: 'Environment variable name for the GPG private key passphrase. Default is $GPG_PASSPHRASE.'
+    default: 'GPG_PASSPHRASE'
 outputs:
   java-version:
     description: 'Actual version of the java environment that has been installed'
@@ -35,6 +40,8 @@ runs:
       with:
         java-version: '${{ inputs.java-version }}'
         distribution: '${{ inputs.distribution }}'
+        gpg-private-key: '${{ inputs.gpg-private-key }}'
+        gpg-passphrase: '${{ inputs.gpg-passphrase }}'
         cache: 'maven'
     - uses: whelk-io/maven-settings-xml-action@v21
       with:
