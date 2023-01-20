@@ -1,6 +1,9 @@
 name: 'Setup Maven Action'
 description: 'Setup for Java Maven Project'
 inputs:
+  fetch-depth:
+    description: 'Number of commits to fetch. 0 indicates all history for all branches and tags.'
+    default: 1
   java-version:
     description: 'The Java version to set up. Takes a whole or semver Java version.'
     default: '8'
@@ -17,12 +20,16 @@ outputs:
   distribution:
     description: "Distribution of Java that has been installed"
     value: ${{ steps.setup-java.outputs.distribution }}
+  java-home:
+    description: "Path to where the java environment has been installed (same as $JAVA_HOME)"
+    value: ${{ steps.setup-java.outputs.path}}
 runs:
   using: 'composite'
   steps:
     - uses: actions/checkout@v3
       with:
         token: '${{ inputs.token }}'
+        fetch-depth: ${{ inputs.fetch-depth }}
     - id: setup-java
       uses: actions/setup-java@v3
       with:
