@@ -45,6 +45,8 @@ runs:
         cache: 'maven'
     - run: cat ~/.m2/settings.xml
       shell: bash
+    - run: gpg -k
+      shell: bash
     - uses: whelk-io/maven-settings-xml-action@v21
       with:
         servers: >
