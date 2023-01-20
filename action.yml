@@ -60,6 +60,10 @@ runs:
               "id": "github-actor",
               "username": "${env.GITHUB_ACTOR}",
               "password": "${{ inputs.token }}"
+            },
+            {
+              "id": "gpg.passphrase",
+              "passphrase": "${env.${{ inputs.gpg-passphrase }}}"
             }
           ]
         repositories: >
