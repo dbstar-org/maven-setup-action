@@ -43,6 +43,7 @@ runs:
         gpg-private-key: '${{ inputs.gpg-private-key }}'
         cache: 'maven'
     - run: cat ~/.m2/settings.xml
+      shell: bash
     - uses: whelk-io/maven-settings-xml-action@v21
       with:
         servers: >
