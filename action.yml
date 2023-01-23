@@ -39,7 +39,7 @@ runs:
         gpg-private-key: '${{ inputs.gpg-private-key }}'
         gpg-passphrase: '${{ inputs.gpg-passphrase }}'
         cache: 'maven'
-    - uses: dbstar-org/maven-settings-appender@v1
+    - uses: dbstar-org/maven-settings-appender@main
       with:
         servers: |-
           <server>
