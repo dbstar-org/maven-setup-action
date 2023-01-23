@@ -57,5 +57,7 @@ runs:
               </repository>
             </repositories>
           </profile>
+        active-profiles: |-
+          <activeProfile>github-actor</activeProfile>
     - run: cat ~/.m2/settings.xml
       shell: bash
