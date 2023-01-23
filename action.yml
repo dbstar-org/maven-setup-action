@@ -41,16 +41,21 @@ runs:
         cache: 'maven'
     - uses: dbstar-org/maven-settings-appender@v1
       with:
-        repositories: |-
-          <repository>
-            <id>github-actor</id>
-            <url>https://maven.pkg.github.com/${env.GITHUB_ACTOR}/*</url>
-          </repository>
         servers: |-
           <server>
             <id>github-actor</id>
             <username>${env.GITHUB_ACTOR}</username>
             <password>${env.GITHUB_TOKEN}</password>
           </server>
+        profiles: |-
+          <profile>
+            <id>github-actor</id>
+            <repositories>
+              <repository>
+                <id>github-actor</id>
+                <url>https://maven.pkg.github.com/${env.GITHUB_ACTOR}/*</url>
+              </repository>
+            </repositories>
+          </profile>
     - run: cat ~/.m2/settings.xml
       shell: bash
