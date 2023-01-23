@@ -47,6 +47,11 @@ runs:
             <username>${env.GITHUB_ACTOR}</username>
             <password>${env.GITHUB_TOKEN}</password>
           </server>
+          <server>
+            <id>ossrh</id>
+            <username>${env.OSS_USERNAME}</username>
+            <password>${env.OSS_PASSWORD}</password>
+          </server>
         profiles: |-
           <profile>
             <id>github-actor</id>
@@ -54,6 +59,21 @@ runs:
               <repository>
                 <id>github-actor</id>
                 <url>https://maven.pkg.github.com/${env.GITHUB_ACTOR}/*</url>
+              </repository>
+            </repositories>
+          </profile>
+          <profile>
+            <id>ossrh</id>
+            <repositories>
+              <repository>
+                <id>ossrh</id>
+                <url>https://s01.oss.sonatype.org/content/groups/public</url>
+                <releases>
+                  <enabled>true</enabled>
+                </releases>
+                <snapshots>
+                  <enabled>false</enabled>
+                </snapshots>
               </repository>
             </repositories>
           </profile>
