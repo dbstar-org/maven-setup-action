@@ -103,19 +103,3 @@ runs:
             <username>${env.OSS_USERNAME}</username>
             <password>${env.OSS_PASSWORD}</password>
           </server>
-        profiles: |-
-          <profile>
-            <id>ossrh</id>
-            <repositories>
-              <repository>
-                <id>ossrh</id>
-                <url>https://s01.oss.sonatype.org/content/groups/public</url>
-                <releases>
-                  <enabled>true</enabled>
-                </releases>
-                <snapshots>
-                  <enabled>false</enabled>
-                </snapshots>
-              </repository>
-            </repositories>
-          </profile>
