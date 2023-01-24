@@ -47,19 +47,19 @@ runs:
             <repositories>
               <repository>
                 <id>github</id>
-                <url>https://maven.pkg.github.com/${env.GITHUB_REPOSITORY_OWNER}/*</url>
+                <url>https://maven.pkg.github.com/${{ github.repository_owner }}/*</url>
               </repository>
             </repositories>
           </profile>
         active-profiles: |-
           <activeProfile>github</activeProfile>
     - uses: dbstar-org/maven-settings-appender@v1
-      if: env.GITHUB_ACTOR != env.GITHUB_REPOSITORY_OWNER
+      if: github.actor != github.repository_owner
       with:
         servers: |-
           <server>
             <id>github-actor</id>
-            <username>${env.GITHUB_ACTOR}</username>
+            <username>${{ github.actor }}</username>
             <password>${env.GITHUB_TOKEN}</password>
           </server>
         profiles: |-
@@ -68,19 +68,19 @@ runs:
             <repositories>
               <repository>
                 <id>github-actor</id>
-                <url>https://maven.pkg.github.com/${env.GITHUB_ACTOR}/*</url>
+                <url>https://maven.pkg.github.com/${{ github.actor }}/*</url>
               </repository>
             </repositories>
           </profile>
         active-profiles: |-
           <activeProfile>github-actor</activeProfile>
     - uses: dbstar-org/maven-settings-appender@v1
-      if: 'dbstar-org' != env.GITHUB_REPOSITORY_OWNER
+      if: github.repository_owner != 'dbstar-org'
       with:
         servers: |-
           <server>
             <id>github-dbstar-org</id>
-            <username>${env.GITHUB_ACTOR}</username>
+            <username>${{ github.actor }}</username>
             <password>${env.GITHUB_TOKEN}</password>
           </server>
         profiles: |-
