@@ -41,16 +41,26 @@ runs:
         cache: 'maven'
     - uses: dbstar-org/maven-settings-appender@v1
       with:
+        profiles: |-
+          <profile>
+            <id>github</id>
+            <repositories>
+              <repository>
+                <id>github</id>
+                <url>https://maven.pkg.github.com/${env.GITHUB_REPOSITORY_OWNER}/*</url>
+              </repository>
+            </repositories>
+          </profile>
+        active-profiles: |-
+          <activeProfile>github</activeProfile>
+    - uses: dbstar-org/maven-settings-appender@v1
+      if: env.GITHUB_ACTOR != env.GITHUB_REPOSITORY_OWNER
+      with:
         servers: |-
           <server>
             <id>github-actor</id>
             <username>${env.GITHUB_ACTOR}</username>
             <password>${env.GITHUB_TOKEN}</password>
-          </server>
-          <server>
-            <id>ossrh</id>
-            <username>${env.OSS_USERNAME}</username>
-            <password>${env.OSS_PASSWORD}</password>
           </server>
         profiles: |-
           <profile>
@@ -62,6 +72,38 @@ runs:
               </repository>
             </repositories>
           </profile>
+        active-profiles: |-
+          <activeProfile>github-actor</activeProfile>
+    - uses: dbstar-org/maven-settings-appender@v1
+      if: 'dbstar-org' != env.GITHUB_REPOSITORY_OWNER
+      with:
+        servers: |-
+          <server>
+            <id>github-dbstar-org</id>
+            <username>${env.GITHUB_ACTOR}</username>
+            <password>${env.GITHUB_TOKEN}</password>
+          </server>
+        profiles: |-
+          <profile>
+            <id>github-dbstar-org</id>
+            <repositories>
+              <repository>
+                <id>github-dbstar-org</id>
+                <url>https://maven.pkg.github.com/dbstar-org/*</url>
+              </repository>
+            </repositories>
+          </profile>
+        active-profiles: |-
+          <activeProfile>github-dbstar-org</activeProfile>
+    - uses: dbstar-org/maven-settings-appender@v1
+      with:
+        servers: |-
+          <server>
+            <id>ossrh</id>
+            <username>${env.OSS_USERNAME}</username>
+            <password>${env.OSS_PASSWORD}</password>
+          </server>
+        profiles: |-
           <profile>
             <id>ossrh</id>
             <repositories>
@@ -77,5 +119,3 @@ runs:
               </repository>
             </repositories>
           </profile>
-        active-profiles: |-
-          <activeProfile>github-actor</activeProfile>
