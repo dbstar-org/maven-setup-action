@@ -38,7 +38,11 @@ runs:
         distribution: '${{ inputs.distribution }}'
         gpg-private-key: '${{ inputs.gpg-private-key }}'
         gpg-passphrase: '${{ inputs.gpg-passphrase }}'
-        cache: 'maven'
+    - name: Cache local Maven repository
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven
     - name: Add default Configuration Options for the mvn command line
       shell: bash
       run: |
