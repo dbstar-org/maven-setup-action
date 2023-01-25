@@ -39,6 +39,13 @@ runs:
         gpg-private-key: '${{ inputs.gpg-private-key }}'
         gpg-passphrase: '${{ inputs.gpg-passphrase }}'
         cache: 'maven'
+    - name: Add default Configuration Options for the mvn command line
+      shell: bash
+      run: |
+        [ -d .mvn ] || mkdir .mvn
+        [ -f .mvn/maven.config ] || echo "-B -e -fae -U -V " >.mvn/maven.config
+        [ -f .mvn/maven.config.additional ] && cat .mvn/maven.config.additional >>.mvn/maven.config
+        cat .mvn/maven.config
     - uses: dbstar-org/maven-settings-appender@v1
       with:
         profiles: |-
