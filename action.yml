@@ -25,6 +25,9 @@ outputs:
   java-home:
     description: "Path to where the java environment has been installed (same as $JAVA_HOME)"
     value: ${{ steps.setup-java.outputs.path}}
+  cache-matched-key:
+    description: 'Key of the cache that was restored, it could either be the primary key on cache-hit or a partial/complete match of one of the restore keys'
+    value: ${{ steps.cache-maven.outputs}}
 runs:
   using: 'composite'
   steps:
@@ -38,10 +41,11 @@ runs:
         distribution: '${{ inputs.distribution }}'
         gpg-private-key: '${{ inputs.gpg-private-key }}'
         gpg-passphrase: '${{ inputs.gpg-passphrase }}'
-    - name: Cache local Maven repository
-      uses: actions/cache@v3
+    - name: Restore local Maven Repository from Cache
+      id: cache-maven
+      uses: actions/cache/restore@v3
       with:
-        path: ~/.m2/repository
+        path: .m2/repository
         key: ${{ runner.os }}-maven-${{ github.run_id }}-${{ github.job }}
         restore-keys: ${{ runner.os }}-maven-
     - name: Add default Configuration Options for the mvn command line
