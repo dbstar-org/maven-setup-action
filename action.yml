@@ -15,6 +15,9 @@ inputs:
   gpg-passphrase:
     description: 'Environment variable name for the GPG private key passphrase. Default is $GPG_PASSPHRASE.'
     default: 'GPG_PASSPHRASE'
+  cache-strategy:
+    description: 'Cache Strategy for Maven Repository. Select from [normal, fashion, restore]. Default is normal.'
+    default: 'normal'
 outputs:
   java-version:
     description: 'Actual version of the java environment that has been installed'
@@ -25,9 +28,12 @@ outputs:
   java-home:
     description: "Path to where the java environment has been installed (same as $JAVA_HOME)"
     value: ${{ steps.setup-java.outputs.path}}
+  cache-hit:
+    description: 'A boolean value to indicate an exact match was found for the primary key'
+    value: ${{ steps.setup-java.outputs.cache-hit}}
   cache-matched-key:
     description: 'Key of the cache that was restored, it could either be the primary key on cache-hit or a partial/complete match of one of the restore keys'
-    value: ${{ steps.cache-maven.outputs.cache-matched-key}}
+    value: ${{ steps.cache-maven-restore.outputs.cache-matched-key}}
 runs:
   using: 'composite'
   steps:
@@ -37,12 +43,26 @@ runs:
     - id: setup-java
       uses: actions/setup-java@v3
       with:
-        java-version: '${{ inputs.java-version }}'
-        distribution: '${{ inputs.distribution }}'
-        gpg-private-key: '${{ inputs.gpg-private-key }}'
-        gpg-passphrase: '${{ inputs.gpg-passphrase }}'
-    - name: Restore local Maven Repository from Cache
-      id: cache-maven
+        java-version: ${{ inputs.java-version }}
+        distribution: ${{ inputs.distribution }}
+        gpg-private-key: ${{ inputs.gpg-private-key }}
+        gpg-passphrase: ${{ inputs.gpg-passphrase }}
+    - id: cache-maven-normal
+      if: inputs.cache-strategy == 'normal'
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-maven-
+    - id: cache-maven-fashion
+      if: inputs.cache-strategy == 'fashion'
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ github.run_id }}-${{ github.job }}
+        restore-keys: ${{ runner.os }}-maven-
+    - id: cache-maven-restore
+      if: inputs.cache-strategy == 'restore'
       uses: actions/cache/restore@v3
       with:
         path: ${{ github.workspace }}/.m2/repository
@@ -55,9 +75,12 @@ runs:
         [ -f .mvn/maven.config ] || echo "-B -e -fae -U -V " >.mvn/maven.config
         [ -f .mvn/maven.config.additional ] && cat .mvn/maven.config.additional >>.mvn/maven.config
         cat .mvn/maven.config
-    - uses: dbstar-org/maven-settings-appender@v1
+    - if: inputs.cache-strategy == 'restore'
+      uses: dbstar-org/maven-settings-appender@v1
       with:
         local: ${{ github.workspace }}/.m2/repository
+    - uses: dbstar-org/maven-settings-appender@v1
+      with:
         profiles: |-
           <profile>
             <id>github</id>
@@ -71,7 +94,7 @@ runs:
         active-profiles: |-
           <activeProfile>github</activeProfile>
     - uses: dbstar-org/maven-settings-appender@v1
-      if: github.actor != github.repository_owner
+      if: github.repository_owner != github.actor
       with:
         servers: |-
           <server>
@@ -120,3 +143,5 @@ runs:
             <username>${env.OSS_USERNAME}</username>
             <password>${env.OSS_PASSWORD}</password>
           </server>
+    - run: echo "${{ toJSON(steps) }}"
+      shell: bash
