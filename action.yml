@@ -143,5 +143,3 @@ runs:
             <username>${env.OSS_USERNAME}</username>
             <password>${env.OSS_PASSWORD}</password>
           </server>
-    - run: echo "${{ toJSON(steps) }}"
-      shell: bash
