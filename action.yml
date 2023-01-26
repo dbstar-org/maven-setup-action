@@ -45,7 +45,7 @@ runs:
       id: cache-maven
       uses: actions/cache/restore@v3
       with:
-        path: .m2/repository
+        path: ${{ github.workspace }}/.m2/repository
         key: ${{ runner.os }}-maven-${{ github.run_id }}-${{ github.job }}
         restore-keys: ${{ runner.os }}-maven-
     - name: Add default Configuration Options for the mvn command line
@@ -55,6 +55,9 @@ runs:
         [ -f .mvn/maven.config ] || echo "-B -e -fae -U -V " >.mvn/maven.config
         [ -f .mvn/maven.config.additional ] && cat .mvn/maven.config.additional >>.mvn/maven.config
         cat .mvn/maven.config
+    - uses: dbstar-org/maven-settings-appender@main
+      with:
+        local: ${{ github.workspace }}/.m2/repository
     - uses: dbstar-org/maven-settings-appender@v1
       with:
         profiles: |-
