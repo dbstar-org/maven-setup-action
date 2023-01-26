@@ -46,7 +46,7 @@ runs:
       uses: actions/cache/restore@v3
       with:
         path: ${{ github.workspace }}/.m2/repository
-        key: ${{ runner.os }}-maven
+        key: ${{ runner.os }}-maven-${{ github.run_id }}-${{ github.job }}
         restore-keys: ${{ runner.os }}-maven-
     - name: Add default Configuration Options for the mvn command line
       shell: bash
