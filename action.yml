@@ -72,7 +72,7 @@ runs:
       shell: bash
       run: |
         [ -d .mvn ] || mkdir .mvn
-        [ -f .mvn/maven.config ] || echo -n "--batch-mode --errors --fail-at-end --update-snapshots --show-version" >.mvn/maven.config
+        [ -f .mvn/maven.config ] || echo -n " --update-snapshots --show-version " >.mvn/maven.config
         [ -f .mvn/maven.config.additional ] && cat .mvn/maven.config.additional >>.mvn/maven.config
         cat .mvn/maven.config
     - if: inputs.cache-strategy == 'restore'
