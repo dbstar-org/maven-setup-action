@@ -72,9 +72,10 @@ runs:
       shell: bash
       run: |
         [ -d .mvn ] || mkdir .mvn
-        [ -f .mvn/maven.config ] || echo "--update-snapshots --show-version" >.mvn/maven.config
-        [ -f .mvn/maven.config.additional ] && cat .mvn/maven.config.additional >>.mvn/maven.config
-        cat .mvn/maven.config
+        [ -f .mvn/maven.config22 ] || echo "--update-snapshots --show-version" >.mvn/maven.config22
+        [ -f .mvn/maven.config.additional ] && cat .mvn/maven.config.additional >>.mvn/maven.config22
+        cat .mvn/maven.config22
+        mvn -v
     - if: inputs.cache-strategy == 'restore'
       uses: dbstar-org/maven-settings-appender@v1
       with:
